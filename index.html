@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Happy Birthday Saien 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #2c3e50, #4ca1af);
+            overflow-x: hidden;
+            color: white;
+            transition: background 1s ease;
+        }
+
+        .celebration {
+            background: linear-gradient(to bottom, #fff0f5, #ffe4e1);
+        }
+
+        .container {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 1000px;
+            margin: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        #teaser-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        #teaser-overlay.hidden {
+            display: none;
+        }
+
+        #teaser-text {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: pulseHeart 1.5s infinite;
+        }
+
+        #revealButton {
+            padding: 15px 30px;
+            font-size: 1.5em;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, background 0.3s;
+            margin-top: 20px;
+        }
+
+        #revealButton:hover {
+            background-color: #c2185b;
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(2.5em, 8vw, 3.5em);
+            color: #ff4081;
+            animation: popIn 1s ease-in-out infinite alternate;
+        }
+
+        .message {
+            font-size: clamp(1em, 3vw, 1.2em);
+            margin: 20px auto;
+            color: #fff;
+            max-width: 900px;
+            animation: fadeIn 2s ease-in-out;
+            line-height: 1.8em;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #person-img {
+            width: 220px;
+            border-radius: 50%;
+            margin-top: 30px;
+            animation: bounce 2s infinite;
+            border: 4px solid #ff4081;
+        }
+
+        .btn {
+            margin: 20px 10px;
+            padding: 15px 30px;
+            background-color: #ff4081;
+            color: white;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #c2185b;
+            transform: scale(1.05);
+        }
+
+        #surprise {
+            display: none;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .twinkle-star {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle 3s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        .heart {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            background-image: url('https://img.icons8.com/color/48/000000/hearts.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            animation: sway 8s linear infinite;
+            z-index: 0;
+        }
+
+        .petal {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            background-image: url('https://img.icons8.com/color-glass/48/flower.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            animation: fall 10s linear infinite;
+            z-index: 0;
+        }
+
+        .slideshow {
+            margin-top: 40px;
+            text-align: center;
+            position: relative;
+            height: clamp(200px, 20vw, 280px);
+            overflow: hidden;
+        }
+
+        .slideshow img {
+            width: clamp(200px, 20vw, 280px);
+            height: auto;
+            border-radius: 15px;
+            border: 3px solid white;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            opacity: 0;
+            transition: all 1s ease-in-out;
+        }
+
+        .slideshow img.active {
+            left: 50%;
+            transform: translateX(-50%) scale(1.1) rotate(5deg);
+            opacity: 1;
+        }
+
+        .slideshow img.prev {
+            left: -100%;
+            opacity: 0;
+            transform: translateX(0) scale(0.9) rotate(-5deg);
+        }
+
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            background-image: url('https://img.icons8.com/color/96/gift.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin: 20px auto;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+            transition: transform 0.5s;
+        }
+
+        .gift-box.open {
+            background-image: url('https://img.icons8.com/color/96/open-box.png');
+            transform: scale(1.2);
+        }
+
+        .audio-controls {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .audio-btn {
+            padding: 10px 20px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .audio-btn:hover {
+            background-color: #c2185b;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        @keyframes pulseHeart {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+
+            to {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes fadeInSlow {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sway {
+            0% {
+                transform: translateY(-100px) translateX(0);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(50vh) translateX(20px);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateY(100vh) translateX(-20px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: clamp(2em, 6vw, 2.5em);
+            }
+
+            .message {
+                font-size: clamp(0.9em, 2.5vw, 1em);
+            }
+
+            #person-img {
+                width: clamp(150px, 40vw, 180px);
+            }
+
+            .gift-box {
+                width: 150px;
+                height: 150px;
+            }
+
+            .slideshow img {
+                width: clamp(150px, 40vw, 200px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="teaser-overlay">
+        <div id="teaser-text">A Loving Surprise Awaits Saien... 💖 Click to Reveal!</div>
+        <button id="revealButton" onclick="revealSurprise()">Unwrap the Love ✨</button>
+    </div>
+    <div class="container">
+        <h1>Happy Birthday Saien 🎂</h1>
+        <img id="person-img" src="./assests/person2.jpeg" alt="Saien">
+        <div class="message">
+            Today, even the stars twinkle a little brighter — because it’s your day! 🌟<br><br>
+            My heart is bursting with joy knowing someone like you exists. You’ve been my peace, my prayer, my light.
+            Even though we’re far apart, I feel your presence every moment. 💖<br><br>
+            May all your dreams come true, may love surround you like the night sky, and may this year bring you closer
+            to all that you wish for. 💫
+        </div>
+        <button class="btn" onclick="showSurprise()">Click for Your Special Message ✨</button>
+        <div id="surprise">
+            <div class="message" id="part1">
+                Happy Birthday, my dearest love! 🎉 My heart overflows with love and gratitude as we celebrate the
+                incredible person you are.
+                Even with the miles between us, you fill my world with joy, laughter, and memories I cherish deeply.
+                <br><br><button class="btn" onclick="showNext('part2')">Next ❤️</button>
+            </div>
+            <div class="message" id="part2" style="display:none">
+                From the moment you entered my life, you’ve been my light, my comfort, and my greatest hope for a
+                beautiful future together.
+                You’re not just special—you’re my heart’s home. ❤️
+                <br><br><button class="btn" onclick="showNext('part3')">Next ❤️</button>
+            </div>
+            <div class="message" id="part3" style="display:none">
+                Today, on your special day, I want to remind you just how incredibly special you are to me and how
+                grateful I am to have you in my life❤️😇.
+                <br><br><button class="btn" onclick="showNext('part4')">Next ❤️</button>
+            </div>
+            <div class="message" id="part4" style="display:none">
+                Every day with you is a gift🎁, but today, we get to celebrate the wonderful person you are and the
+                amazing journey we are on together.
+                <br><br><button class="btn" onclick="showNext('part5')">Next ❤️</button>
+            </div>
+            <div class="message" id="part5" style="display:none">
+                Your kindness, compassion, and strength inspire me in ways I never thought possible.
+                <br><br><button class="btn" onclick="showNext('part6')">Next ❤️</button>
+            </div>
+            <div class="message" id="part6" style="display:none">
+                You always make every challenge easier to face. I always consider you my troubleshooter. You're my safe
+                space.
+                <br><br><button class="btn" onclick="showNext('part7')">Next ❤️</button>
+            </div>
+            <div class="message" id="part7" style="display:none">
+                Your love has been a beacon of light, guiding me through highs and lows with support and
+                understanding❤️.
+                <br><br><button class="btn" onclick="showNext('part8')">Next ❤️</button>
+            </div>
+            <div class="message" id="part8" style="display:none">
+                On your special day, I send you all my love and prayers.
+                May Allah shower you with His boundless blessings, protect you, and grant you health, happiness, and
+                success in every step you take. 🙏
+                <br><br><button class="btn" onclick="showNext('part9')">Next ❤️</button>
+            </div>
+            <div class="message" id="part9" style="display:none">
+                I pray this year brings you closer to your dreams and fills your heart with joy. I dream of the day
+                we’ll close this distance, building a life together filled with love, laughter, and countless
+                adventures.
+                I see us hand in hand, creating a home where our love grows stronger every day. 💕
+                <br><br><button class="btn" onclick="showNext('part10')">Next ❤️</button>
+            </div>
+            <div class="message" id="part10" style="display:none">
+                You deserve nothing less than the best (yes, that’s me, and I’m sticking to it! 😏 Don’t even think
+                about anyone else—my heart claims you entirely!).
+                <br><br><button class="btn" onclick="showNext('part11')">Next ❤️</button>
+            </div>
+            <div class="message" id="part11" style="display:none">
+                May this year bring new opportunities, reasons to smile, and the courage to chase every dream. I long
+                for the day we celebrate your birthday in person, sharing hugs, laughter, and plans for our future.
+                Until then, know that my heart is always with you.
+                <br><br><button class="btn" onclick="showNext('part12')">Next ❤️</button>
+            </div>
+            <div class="message" id="part12" style="display:none">
+                Thank you for being my rock, my confidant, and my greatest love.
+                Your resilience and beautiful spirit inspire me daily, and I’m so grateful for the promise of us—a
+                future where we’re side by side, building our dreams together.
+                <br><br><button class="btn" onclick="showNext('part13')">Next ❤️</button>
+            </div>
+            <div class="message" id="part13" style="display:none">
+                Here’s my one request (or maybe a warning 😉): Never change. I feel like you are changing. please don’t.
+                Your heart, your quirks, your everything—I love it all.
+                <br><br><button class="btn" onclick="showNext('part14')">Next ❤️</button>
+            </div>
+            <div class="message" id="part14" style="display:none">
+                I’m sorry for any time I’ve hurt you; I think, I have hurt you alot this year; I care so deeply, even
+                when I’m too stubborn to show it. You’re my world, and I’ll always fight to keep you just as you are. 😊
+                <br><br><button class="btn" onclick="showNext('part15')">Next ❤️</button>
+            </div>
+            <div class="message" id="part15" style="display:none">
+                This past year was tough, with unexpected challenges and broken hopes. I know it was especially hard for
+                you, facing setbacks that weighed heavily.
+                My heart aches for the pain you endured, and I pray this coming year restores all the happiness we lost.
+                I pray for our togetherness, that our path to marriage unfolds smoothly, uniting us without hardship.
+                May Allah make our journey easy and fill it with love. 🙏
+                <br><br><button class="btn" onclick="showNext('part16')">Next ❤️</button>
+            </div>
+            <div class="message" id="part16" style="display:none">
+                This year, I’ve felt a little less prioritized—maybe it’s just my imagination, but there were moments I
+                felt alone.
+                I don’t say this to blame you, but because I want us to grow even closer.
+                Your love means everything to me, and I pray our future is filled with endless love, shared dreams, and
+                the joy of being together.
+                Here’s to you, to us, and to a love that will one day make every distance disappear. ❤️
+
+                <br><br><button class="btn" onclick="showNext('final')">Final ❤️</button>
+            </div>
+            <div class="message fade-final" id="final" style="display:none">
+                Happy Birthday, my love! 😘 May this day be as extraordinary as you are, and may our love grow stronger
+                with every passing moment.
+                <br><br><strong>Quote for you:</strong> “With you in my heart, every mile feels like a step closer to
+                forever.” 🎂💕
+                <br><br> Another year, another grace,
+                <br>Still I find your sweetest face.
+                <br>Time may pass and seasons fly,
+                <br>But you're my moon, my endless sky.
+            </div>
+        </div>
+        <div class="slideshow">
+            <img src="./assests/person1.jpeg" alt="Memory 1">
+            <img src="./assests/person2.jpeg" alt="Memory 2">
+            <img src="./assests/person3.jpeg" alt="Memory 3">
+        </div>
+        <div class="spinner-container">
+            <h2>🎁 Open a Gift of Love!</h2>
+            <div class="gift-box" onclick="openGift()"></div>
+        </div>
+        <div class="audio-controls">
+            <button class="audio-btn" onclick="toggleAudio()">Toggle Music 🎶</button>
+        </div>
+    </div>
+    <audio id="background-music" loop>
+        <source src="./assests/birthday_music.mpeg" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'twinkle-star';
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 5}s`;
+            document.body.appendChild(star);
+        }
+        for (let i = 0; i < 30; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = `${Math.random() * 100}vw`;
+            heart.style.top = `${-Math.random() * 100}px`;
+            heart.style.animationDuration = `${6 + Math.random() * 4}s`;
+            heart.style.animationDelay = `${Math.random() * 2}s`;
+            document.body.appendChild(heart);
+        }
+        for (let i = 0; i < 30; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = `${Math.random() * 100}vw`;
+            petal.style.top = `${-Math.random() * 100}px`;
+            petal.style.animationDuration = `${5 + Math.random() * 5}s`;
+            petal.style.animationDelay = `${Math.random() * 3}s`;
+            document.body.appendChild(petal);
+        }
+
+        // Slideshow animation
+        const images = document.querySelectorAll('.slideshow img');
+        let currentIndex = 0;
+
+        function showNextImage() {
+            images.forEach((img, index) => {
+                img.classList.remove('active', 'prev');
+                if (index === currentIndex) {
+                    img.classList.add('active');
+                } else if (index === (currentIndex - 1 + images.length) % images.length) {
+                    img.classList.add('prev');
+                }
+            });
+            currentIndex = (currentIndex + 1) % images.length;
+        }
+
+        // Start slideshow after teaser is revealed
+        document.getElementById('revealButton').addEventListener('click', () => {
+            setInterval(showNextImage, 5000);
+            showNextImage();
+        });
+
+        const audio = document.getElementById('background-music');
+        let isPlaying = false;
+        function toggleAudio() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.querySelector('.audio-btn').textContent = 'Play Music 🎶';
+            } else {
+                audio.play().catch(e => console.log('Audio play failed:', e));
+                isPlaying = true;
+                document.querySelector('.audio-btn').textContent = 'Pause Music 🎶';
+            }
+        }
+
+        function revealSurprise() {
+            document.getElementById('teaser-overlay').classList.add('hidden');
+            document.body.classList.add('celebration');
+            audio.play().catch(e => console.log('Audio play failed:', e));
+            isPlaying = true;
+            document.querySelector('.audio-btn').textContent = 'Pause Music 🎶';
+        }
+
+        function showSurprise() {
+            document.getElementById('surprise').style.display = 'block';
+            document.getElementById('part1').style.display = 'block';
+        }
+
+        function showNext(id) {
+            const current = document.querySelector('#surprise .message:not([style*="display: none"])');
+            if (current) current.style.display = 'none';
+            const next = document.getElementById(id);
+            if (next) next.style.display = 'block';
+        }
+
+        function openGift() {
+            const compliments = [
+                'You’re the reason behind my biggest smiles. 💖',
+                'Your presence makes my life magical. ✨',
+                'Even distance can’t dim your light in my heart. 🌟',
+                'You’re more precious than the stars. 🌠',
+                'You make everything better, just by being you. 💫',
+                'Your love is my greatest treasure. 💝',
+                'Every moment with you feels like a dream. 😘'
+            ];
+            const giftBox = document.querySelector('.gift-box');
+            giftBox.classList.add('open');
+            setTimeout(() => {
+                giftBox.classList.remove('open');
+                alert(compliments[Math.floor(Math.random() * compliments.length)]);
+            }, 500);
+        }
+    </script>
+</body>
+
+</html>
